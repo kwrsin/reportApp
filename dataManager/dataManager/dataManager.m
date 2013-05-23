@@ -20,7 +20,12 @@
     NSArray *fileNames = [fh fileNamesAtDirectoryPath:directory extension:CMT];
     for (NSString *fn in fileNames) {
         NSString *filePath = [directory stringByAppendingPathComponent:fn];
-        NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+        // nsmutableCopyでハマった
+        NSMutableArray *array = [[NSKeyedUnarchiver unarchiveObjectWithFile:filePath] mutableCopy];
+        if (!array) {
+            array = [NSMutableArray array];
+            
+        }
         [loadedDatas setValue:array forKey:fn];
     }
     return loadedDatas;

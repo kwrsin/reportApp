@@ -21,6 +21,8 @@
 		129B940F174CBA55005A90C3 /* MasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 129B940D174CBA55005A90C3 /* MasterViewController.xib */; };
 		129B9412174CBA55005A90C3 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 129B9410174CBA55005A90C3 /* DetailViewController.xib */; };
 		129B9422174CD1DB005A90C3 /* libdataManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 129B9421174CD1DB005A90C3 /* libdataManager.a */; };
+		129B9427174CFAED005A90C3 /* SubMasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 129B9423174CFAED005A90C3 /* SubMasterViewController.xib */; };
+		129B9428174CFAED005A90C3 /* SubMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 129B9426174CFAED005A90C3 /* SubMasterViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,9 @@
 		129B940E174CBA55005A90C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MasterViewController.xib; sourceTree = "<group>"; };
 		129B9411174CBA55005A90C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DetailViewController.xib; sourceTree = "<group>"; };
 		129B9421174CD1DB005A90C3 /* libdataManager.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdataManager.a; path = "../../../../../Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos/libdataManager.a"; sourceTree = "<group>"; };
+		129B9424174CFAED005A90C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SubMasterViewController.xib; sourceTree = "<group>"; };
+		129B9425174CFAED005A90C3 /* SubMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubMasterViewController.h; sourceTree = "<group>"; };
+		129B9426174CFAED005A90C3 /* SubMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubMasterViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +97,9 @@
 		129B93F5174CBA55005A90C3 /* reportApp */ = {
 			isa = PBXGroup;
 			children = (
+				129B9423174CFAED005A90C3 /* SubMasterViewController.xib */,
+				129B9425174CFAED005A90C3 /* SubMasterViewController.h */,
+				129B9426174CFAED005A90C3 /* SubMasterViewController.m */,
 				129B93FE174CBA55005A90C3 /* AppDelegate.h */,
 				129B93FF174CBA55005A90C3 /* AppDelegate.m */,
 				129B9407174CBA55005A90C3 /* MasterViewController.h */,
@@ -176,6 +184,7 @@
 				129B9406174CBA55005A90C3 /* Default-568h@2x.png in Resources */,
 				129B940F174CBA55005A90C3 /* MasterViewController.xib in Resources */,
 				129B9412174CBA55005A90C3 /* DetailViewController.xib in Resources */,
+				129B9427174CFAED005A90C3 /* SubMasterViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +199,7 @@
 				129B9400174CBA55005A90C3 /* AppDelegate.m in Sources */,
 				129B9409174CBA55005A90C3 /* MasterViewController.m in Sources */,
 				129B940C174CBA55005A90C3 /* DetailViewController.m in Sources */,
+				129B9428174CFAED005A90C3 /* SubMasterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +228,14 @@
 				129B9411174CBA55005A90C3 /* en */,
 			);
 			name = DetailViewController.xib;
+			sourceTree = "<group>";
+		};
+		129B9423174CFAED005A90C3 /* SubMasterViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				129B9424174CFAED005A90C3 /* en */,
+			);
+			name = SubMasterViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

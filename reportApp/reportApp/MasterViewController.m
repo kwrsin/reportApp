@@ -8,7 +8,7 @@
 
 #import "MasterViewController.h"
 
-#import "DetailViewController.h"
+#import "SubMasterViewController.h"
 #import "dataManager.h"
 #import "Consts.h"
 
@@ -24,7 +24,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"Master", @"Master");
+        self.title = NSLocalizedString(@"検査結果報告書", @"Master");
     }
     return self;
 }
@@ -40,23 +40,9 @@
     
     dm = [[dataManager alloc]init];
     
-//    NSMutableArray *bbb = @[@"あ",@"い",@"う",@"え"];
-//    NSMutableArray *aaa = @[@"こ",@"れ",@"は",@"何"];
-//    [dm saveFile:@"aaa.dat" dataList:aaa];
-//    [dm saveFile:@"bbb.dat" dataList:bbb];
-    
-    NSDictionary *loadedData = [dm loadDataFromFiles];
-//    NSMutableArray *revA = [loadedData objectForKey:@"aaa.dat"];
-//    NSMutableArray *revB = [loadedData objectForKey:@"bbb.dat"];
-//    for (NSString *a in revA) {
-//        NSLog(@"%@", a);
-//    }
-//    for (NSString *b in revB) {
-//        NSLog(@"%@", b);
-//    }
-//    [dm removeAllFiles];
+    _loadedData = [dm loadDataFromFiles];
     _objects = [NSMutableArray arrayWithArray:
-                    [loadedData allKeys]];
+                    [_loadedData allKeys]];
 
 }
 
@@ -86,6 +72,8 @@
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     
     [dm saveFile:newFileName dataList:nil];
+    NSMutableArray * dict = [NSMutableArray array];
+    [_loadedData setValue:dict forKey:newFileName];
 }
 
 #pragma mark - Table View
@@ -113,7 +101,9 @@
 
 
     NSDate *object = _objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    NSString *filename = [object description];
+    NSString *label = [filename stringByReplacingOccurrencesOfString:@".dat" withString:@""];
+    cell.textLabel.text = label;
     return cell;
 }
 
@@ -129,6 +119,7 @@
         NSString *fileName = [_objects objectAtIndex:indexPath.row];
         [_objects removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [_loadedData removeObjectForKey:fileName];
         [dm removeFile:fileName];
         
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -154,12 +145,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!self.detailViewController) {
-        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+    if (!self.subMasterViewController) {
+        self.subMasterViewController = [[SubMasterViewController alloc] initWithNibName:@"SubMasterViewController" bundle:nil];
     }
     NSDate *object = _objects[indexPath.row];
-    self.detailViewController.detailItem = object;
-    [self.navigationController pushViewController:self.detailViewController animated:YES];
+    self.subMasterViewController.filename = object;
+    self.subMasterViewController.loadedData = _loadedData;
+    
+    [self.navigationController pushViewController:self.subMasterViewController animated:YES];
 }
 
 @end
