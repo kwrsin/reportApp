@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "SubMasterViewController.h"
+#import "GraphViewController.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -19,7 +20,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [self configureView];
-    _valueField.delegate = self;
     
 }
 
@@ -54,6 +54,21 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    _valueField.delegate = self;
+    UIBarButtonItem *graphButton =
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(graph:)];
+    self.navigationItem.rightBarButtonItem = graphButton;
+
+}
+- (void)graph:(id)sender {
+    if (!self.graphViewController) {
+        self.graphViewController = [[GraphViewController alloc] initWithNibName:@"GraphViewController" bundle:nil];
+    }
+    
+    self.graphViewController.indexOfSelectedItem = self.indexOfSelectedItem;
+    self.graphViewController.selectedItem = self.detailItem;
+    [self.navigationController pushViewController:self.graphViewController animated:YES];
+    
 }
 - (void)didReceiveMemoryWarning
 {

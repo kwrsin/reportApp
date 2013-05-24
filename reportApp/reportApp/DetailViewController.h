@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @class SubMasterViewController;
+@class GraphViewController;
 
 @interface DetailViewController : UIViewController <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *valueField;
@@ -17,6 +19,8 @@
 @property (strong, nonatomic) NSString *value;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) SubMasterViewController *subMasterViewController;
+@property (strong, nonatomic) GraphViewController *graphViewController;
+@property (assign, nonatomic) int indexOfSelectedItem;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 - (IBAction)HideKeyBoard:(id)sender;
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;

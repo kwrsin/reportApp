@@ -237,9 +237,11 @@
     self.detailViewController.indexPath = indexPath;
     self.detailViewController.subMasterViewController = self;
     NSMutableArray *arr = [_loadedData objectForKey:_filename];
+    int index = [self toIndexFromIndexNumber:indexPath.section row:indexPath.row];
     NSString *value = [arr objectAtIndex:
-                       [self toIndexFromIndexNumber:indexPath.section row:indexPath.row]];
+                       index];
     self.detailViewController.value = value;
+    self.detailViewController.indexOfSelectedItem = index;
     
     [self.navigationController pushViewController:self.detailViewController animated:YES];
 }
@@ -261,6 +263,10 @@
     dataManager *dm = [[dataManager alloc]init];
     [dm removeFile:_filename];
     [dm saveFile:_filename dataList:arr];
+    
+    // 詳細画面が再表示されるとき最新の更新値を設定していないと、
+    // グラフ画面から詳細画面に戻るときに過去の残骸が表示される
+    self.detailViewController.value = value;
 }
 
 @end
