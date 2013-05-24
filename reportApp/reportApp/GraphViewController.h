@@ -18,5 +18,6 @@
 @property (strong, nonatomic) NSString *selectedItem;
 @property (assign, nonatomic) int indexOfSelectedItem;
 @property (strong, nonatomic) NSMutableDictionary *loadedData;
+@property (strong, nonatomic) NSDictionary *itemInfo;
 
 @end
