@@ -23,7 +23,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"項目", @"SubMaster");
     }
     return self;
 }
@@ -168,7 +167,8 @@
     
     NSString *filename = _filename;
     NSString *label = [filename stringByReplacingOccurrencesOfString:@".dat" withString:@""];
-    self.title = NSLocalizedString(label, @"SubMaster");
+    self.title = NSLocalizedString(@"項目", @"SubMaster");
+    
     [super viewWillAppear:animated];
 }
 // 作成時一回しか呼ばれまへんで
@@ -245,7 +245,6 @@
     
     [self.navigationController pushViewController:self.detailViewController animated:YES];
 }
-
 - (void)reflect:(NSIndexPath*)indexPath value:(NSString*)value {
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     

@@ -24,7 +24,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"検査結果報告書", @"Master");
+        self.title = NSLocalizedString(@"検査結果報告", @"Master");
     }
     return self;
 }

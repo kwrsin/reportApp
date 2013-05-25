@@ -93,6 +93,11 @@
     [self createYFormatter];
     
     self.itemInfo = [self getItemInfo:self.indexOfSelectedItem];
+    NSString *unitName = [_itemInfo objectForKey:@"unit"];
+    if (unitName) {
+        self.graphView.yUnit = unitName;
+    }
+    self.title = self.selectedItem;
     
 //    [super viewDidAppear:animated];
 }
@@ -207,6 +212,13 @@
 - (void)graphView:(S7GraphView *)graphView indexOfTappedXaxis:(NSInteger)indexOfTappedXaxis {
 //    GraphInfo *tapped = [self.graphInfoList_.list_ objectAtIndex:indexOfTappedXaxis];
 //    [label setText:[NSString stringWithFormat:@"%@ was tapped.",tapped.name_]];
+    NSArray *files = _loadedData.allKeys;
+    NSString *filename = [files objectAtIndex:indexOfTappedXaxis];
+    NSArray *datas = [_loadedData objectForKey:filename];
+    NSNumber *value = [datas objectAtIndex:_indexOfSelectedItem];
+    NSString *message = [NSString stringWithFormat:@"値は %@ です", value];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:filename message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    [alert show];
 }
 - (NSDictionary *)getItemInfo:(int)index {
     NSDictionary * retDic0 = [NSDictionary dictionaryWithObjectsAndKeys:
