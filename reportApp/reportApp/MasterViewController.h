@@ -9,9 +9,18 @@
 #import <UIKit/UIKit.h>
 
 @class SubMasterViewController;
+@class RenameViewController;
+@class dataManager;
 
 @interface MasterViewController : UITableViewController
+{
+    NSMutableArray *_objects;
+    dataManager *dm;
+}
 
 @property (strong, nonatomic) SubMasterViewController *subMasterViewController;
+@property (strong, nonatomic) RenameViewController *renameViewController;
 @property (strong, nonatomic) NSMutableDictionary *loadedData;
+- (void)refleshData;
+- (void)gotoSubmenu4newData:(NSString *)filename;
 @end

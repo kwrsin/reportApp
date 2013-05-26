@@ -17,5 +17,5 @@
 - (void)removeAllFiles;
 - (void)removeFile:(NSString *)fileName;
 - (void)createFile;
-- (void)saveFile:(NSString *)fileName dataList:(NSMutableArray *)dataList;
+- (int)saveFile:(NSString *)fileName dataList:(NSMutableArray *)dataList;
 @end

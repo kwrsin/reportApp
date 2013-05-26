@@ -75,6 +75,37 @@
 	
 	return color;
 }
+//+ (UIColor *)colorByIndex4alph:(NSInteger)index {
+//	
+//	UIColor *color;
+//	
+//	switch (index) {
+//		case 0: color = RGBA(5, 141, 191);
+//			break;
+//		case 1: color = RGBA(80, 180, 50);
+//			break;
+//		case 2: color = RGBA(255, 102, 0);
+//			break;
+//		case 3: color = RGBA(255, 158, 1);
+//			break;
+//		case 4: color = RGBA(252, 210, 2);
+//			break;
+//		case 5: color = RGBA(248, 255, 1);
+//			break;
+//		case 6: color = RGBA(176, 222, 9);
+//			break;
+//		case 7: color = RGBA(106, 249, 196);
+//			break;
+//		case 8: color = RGBA(178, 222, 255);
+//			break;
+//		case 9: color = RGBA(4, 210, 21);
+//			break;
+//		default: color = RGBA(204, 204, 204);
+//			break;
+//	}
+//	
+//	return color;
+//}
 
 @synthesize dataSource = _dataSource, xValuesFormatter = _xValuesFormatter, yValuesFormatter = _yValuesFormatter;
 @synthesize drawAxisX = _drawAxisX, drawAxisY = _drawAxisY, drawGridX = _drawGridX, drawGridY = _drawGridY;
@@ -82,6 +113,35 @@
 @synthesize drawInfo = _drawInfo, info = _info, infoColor = _infoColor;
 @synthesize xUnit = _xUnit, yUnit = _yUnit;
 @synthesize delegate;
+
+// FIXME 
+@synthesize specialInfo = _specialInfo;
+-(NSDictionary *)getDatas:(int)index {
+    NSDictionary * dic = nil;
+    if (_specialInfo) {
+        dic = [_specialInfo objectAtIndex:index];
+    }
+    return  dic;
+}
+-(UIColor *)getColor:(int)index{
+    NSDictionary * dic = nil;
+    dic = [self getDatas:index];
+    if (dic) {
+        return [dic objectForKey:@"color"];
+    }
+    return nil;
+}
+-(int)getType:(int)index{
+    NSDictionary * dic = nil;
+    dic = [self getDatas:index];
+    if (dic) {
+        NSNumber *value = [dic objectForKey:@"type"];
+        if (value) {
+            return value.intValue;
+        }
+    }
+    return NORMAL;
+}
 
 - (id)initWithFrame:(CGRect)frame {
 	
@@ -117,7 +177,10 @@
     
     [_xUnit release];
     [_yUnit release];
-	
+
+	// FIXME
+    [_specialInfo release];
+    
 	[super dealloc];
 }
 
@@ -151,12 +214,18 @@
             maxPoint = numberOfPoint;
         }
     }
+    BOOL passed = NO;
 	
 	for (NSUInteger plotIndex = 0; plotIndex < numberOfPlots; plotIndex++) {
 		// FIXME: 小数点対応
 		NSArray *tmpValues = [self.dataSource graphView:self yValuesForPlot:plotIndex];
 		NSArray *values = [self getArrayOfExpandedData:tmpValues maxCol:maxPoint];
         //		NSArray *values = [self.dataSource graphView:self yValuesForPlot:plotIndex];
+        if (passed == NO) {
+            maxY = [[values objectAtIndex:0] floatValue];
+            minY = [[values objectAtIndex:0] floatValue];
+            passed = YES;
+        }
 		
 		for (NSUInteger valueIndex = 0; valueIndex < values.count; valueIndex++) {
 			
@@ -205,9 +274,14 @@
 	CGFloat step = (maxY - minY) / 5;
 	CGFloat stepY = (self.frame.size.height - (offsetY * 2)) / (maxY - minY);
     
-    NSInteger value = minY - step;
+    // FIXME
+    float top = 0;
+    
+    float value = minY - step;
+//    NSInteger value = minY - step;
 	for (NSUInteger i = 0; i < 6; i++) {
-        NSInteger y = (i * step) * stepY;
+        float y = (i * step) * stepY;
+//        NSInteger y = (i * step) * stepY;
 		value = value + step;
 		
 		if (_drawGridY) {
@@ -218,6 +292,9 @@
 			
 			CGContextSetLineDash(c, 0.0f, lineDash, 2);
 			CGContextSetLineWidth(c, 0.1f);
+            
+            // FIXME
+            top = self.frame.size.height - y - offsetY;
 			
 			CGPoint startPoint = CGPointMake(offsetX, self.frame.size.height - y - offsetY);
 			CGPoint endPoint = CGPointMake(self.frame.size.width - offsetX, self.frame.size.height - y - offsetY);
@@ -235,7 +312,7 @@
 			NSNumber *workNumber = [NSNumber numberWithInt:value];
             float point = workNumber.floatValue;
             for (int index = 0; index < maxPoint; index++) {
-                point = point / 10;
+                point = point / 10.0f;
             }
 			NSNumber *valueToFormat = [NSNumber numberWithFloat:point];
             //			NSNumber *valueToFormat = [NSNumber numberWithInt:value];
@@ -375,6 +452,14 @@
 		}
 		
 		CGColorRef plotColor = [S7GraphView colorByIndex:plotIndex].CGColor;
+        
+        // FIXME: グラグの色対応
+        UIColor * specialColor = [self getColor:plotIndex];
+        
+        if (specialColor) {
+            plotColor = specialColor.CGColor;
+        }
+
         int numberDataCount = 0;
         for (NSUInteger valueIndex = 0; valueIndex < values.count; valueIndex++) {
             if ([self isNumberClass:[values objectAtIndex:valueIndex]]) {
@@ -385,7 +470,8 @@
             for (NSUInteger valueIndex = 0; valueIndex < values.count - 1; valueIndex++) {
                 if ([self isNumberClass:[values objectAtIndex:valueIndex]]) {
                     NSUInteger x = valueIndex * stepX;
-                    NSInteger y = ([[values objectAtIndex:valueIndex] intValue] - minY) * stepY;
+                    NSInteger y = floor(([[values objectAtIndex:valueIndex] intValue] - minY) * stepY);
+//                    NSInteger y = ([[values objectAtIndex:valueIndex] intValue] - minY) * stepY;
                     
                     CGContextSetLineWidth(c, 1.5f);
                     
@@ -393,8 +479,9 @@
                     CGPoint endPoint;
                     if ([self isNumberClass:[values objectAtIndex:valueIndex + 1]]) {
                         x = (valueIndex + 1) * stepX;
-                        y = ([[values objectAtIndex:valueIndex + 1] intValue] - minY) * stepY;
-                        endPoint = CGPointMake(x + offsetX, self.frame.size.height - y - offsetY);                    
+                        y = floor(([[values objectAtIndex:valueIndex + 1] intValue] - minY) * stepY);
+//                        y = ([[values objectAtIndex:valueIndex + 1] intValue] - minY) * stepY;
+                        endPoint = CGPointMake(x + offsetX, self.frame.size.height - y - offsetY);
                     } else {
                         for (NSUInteger idx = valueIndex+1; idx < values.count; idx++) {
                             if ([self isNumberClass:[values objectAtIndex:idx]]) {
@@ -416,14 +503,35 @@
                     
                     if (shouldFill) {
                         
-                        CGContextMoveToPoint(c, startPoint.x, self.frame.size.height - offsetY);
-                        CGContextAddLineToPoint(c, startPoint.x, startPoint.y);
-                        CGContextAddLineToPoint(c, endPoint.x, endPoint.y);
-                        CGContextAddLineToPoint(c, endPoint.x, self.frame.size.height - offsetY);
-                        CGContextClosePath(c);
-                        
-                        CGContextSetFillColorWithColor(c, plotColor);
-                        CGContextFillPath(c);
+//                        CGContextMoveToPoint(c, startPoint.x, self.frame.size.height - offsetY);
+//                        CGContextAddLineToPoint(c, startPoint.x, startPoint.y);
+//                        CGContextAddLineToPoint(c, endPoint.x, endPoint.y);
+//                        CGContextAddLineToPoint(c, endPoint.x, self.frame.size.height - offsetY);
+//                        CGContextClosePath(c);
+//                        
+//                        CGContextSetFillColorWithColor(c, plotColor);
+//                        CGContextFillPath(c);
+                        if ([self getType:plotIndex] == UPPER) {
+                            CGContextMoveToPoint(c, startPoint.x,  top);
+                            CGContextAddLineToPoint(c, startPoint.x, startPoint.y);
+                            CGContextAddLineToPoint(c, endPoint.x, endPoint.y);
+                            CGContextAddLineToPoint(c, endPoint.x, top);
+                            CGContextClosePath(c);
+                            
+                            CGContextSetFillColorWithColor(c, plotColor);
+                            CGContextFillPath(c);
+                        } else if ([self getType:plotIndex] == LOWER) {
+                            CGContextMoveToPoint(c, startPoint.x, self.frame.size.height - offsetY);
+                            CGContextAddLineToPoint(c, startPoint.x, startPoint.y);
+                            CGContextAddLineToPoint(c, endPoint.x, endPoint.y);
+                            CGContextAddLineToPoint(c, endPoint.x, self.frame.size.height - offsetY);
+                            CGContextClosePath(c);
+                            
+                            CGContextSetFillColorWithColor(c, plotColor);
+                            CGContextFillPath(c);
+                            CGContextSetFillColorWithColor(c, plotColor);
+                            CGContextFillPath(c);
+                        }
                     }
                 }
             }
@@ -491,13 +599,18 @@
     
 	[self setNeedsDisplay];
 }
-// FIXME: ViewのRectサイズの修正が必要
+// FIXME: 小数点以下の桁の長さ
 - (int)getLengthOfPointNumbers:(NSArray *)data {
     int count = data.count;
     int max = 0;
     for(int i = 0;i < count; i++) {
         NSNumber *num = [data objectAtIndex:i];
-        NSString *strValue = [num stringValue];
+        NSNumberFormatter* formatter = [[[NSNumberFormatter alloc] init]autorelease];
+        formatter.numberStyle = NSNumberFormatterDecimalStyle;
+        formatter.minimumFractionDigits = 0;
+        formatter.maximumFractionDigits = 4;
+
+        NSString *strValue = [formatter stringFromNumber:num];
         BOOL hit = NO;
         int points = 0;
         int zeroCounter = 0;

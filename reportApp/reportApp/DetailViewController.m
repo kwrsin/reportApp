@@ -57,7 +57,6 @@
     _valueField.delegate = self;
     UIBarButtonItem *graphButton =
     [[UIBarButtonItem alloc] initWithTitle:@"グラフ" style:UIBarButtonItemStyleBordered target:self action:@selector(graph:)];
-//        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(graph:)];
     self.navigationItem.rightBarButtonItem = graphButton;
 
 }

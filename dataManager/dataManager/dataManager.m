@@ -68,10 +68,16 @@
 //        NSLog(@"%@", @"データの保存に失敗しました。");
 //    }
 }
-- (void)saveFile:(NSString *)fileName dataList:(NSMutableArray *)dataList {
+- (int)saveFile:(NSString *)fileName dataList:(NSMutableArray *)dataList {
     NSString *directory = [NSHomeDirectory() stringByAppendingPathComponent:DOC_DIR];
     NSString *filePath = [directory stringByAppendingPathComponent:fileName];
     
+    if ([fh fileExistsAtPath:filePath]) {
+        return DM_EEOR_FILE_EXIST;
+    }
     [NSKeyedArchiver archiveRootObject:dataList toFile:filePath];
+    
+    return DM_SUCCESS;
 }
+
 @end

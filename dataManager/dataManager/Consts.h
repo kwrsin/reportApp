@@ -12,4 +12,6 @@
 #define DOC_DIR @"Documents"
 //#define DOC_DIR @"Applications/0B7B6D85-A15B-4113-AF53-AD421B224B0D/Documents"
 #define CMT @"dat"
+#define DM_SUCCESS 0
+#define DM_EEOR_FILE_EXIST 1
 #endif

@@ -26,6 +26,8 @@
 		12C69AED174E6DBD00BE4987 /* S7GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C69AEB174E6DBC00BE4987 /* S7GraphView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		12C69AF1174E6F2500BE4987 /* GraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C69AEF174E6F2500BE4987 /* GraphViewController.m */; };
 		12C69AF2174E6F2500BE4987 /* GraphViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12C69AF0174E6F2500BE4987 /* GraphViewController.xib */; };
+		12DF556D1750A29300FCB3B1 /* RenameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 12DF556B1750A29300FCB3B1 /* RenameViewController.m */; };
+		12DF556E1750A29300FCB3B1 /* RenameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12DF556C1750A29300FCB3B1 /* RenameViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,9 @@
 		12C69AEE174E6F2500BE4987 /* GraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphViewController.h; sourceTree = "<group>"; };
 		12C69AEF174E6F2500BE4987 /* GraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphViewController.m; sourceTree = "<group>"; };
 		12C69AF0174E6F2500BE4987 /* GraphViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphViewController.xib; sourceTree = "<group>"; };
+		12DF556A1750A29300FCB3B1 /* RenameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenameViewController.h; sourceTree = "<group>"; };
+		12DF556B1750A29300FCB3B1 /* RenameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenameViewController.m; sourceTree = "<group>"; };
+		12DF556C1750A29300FCB3B1 /* RenameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RenameViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,8 +123,11 @@
 				129B9408174CBA55005A90C3 /* MasterViewController.m */,
 				129B940A174CBA55005A90C3 /* DetailViewController.h */,
 				129B940B174CBA55005A90C3 /* DetailViewController.m */,
+				12DF556A1750A29300FCB3B1 /* RenameViewController.h */,
 				129B940D174CBA55005A90C3 /* MasterViewController.xib */,
 				129B9410174CBA55005A90C3 /* DetailViewController.xib */,
+				12DF556B1750A29300FCB3B1 /* RenameViewController.m */,
+				12DF556C1750A29300FCB3B1 /* RenameViewController.xib */,
 				129B93F6174CBA55005A90C3 /* Supporting Files */,
 				12C69AEE174E6F2500BE4987 /* GraphViewController.h */,
 				12C69AEF174E6F2500BE4987 /* GraphViewController.m */,
@@ -201,6 +209,7 @@
 				129B9412174CBA55005A90C3 /* DetailViewController.xib in Resources */,
 				129B9427174CFAED005A90C3 /* SubMasterViewController.xib in Resources */,
 				12C69AF2174E6F2500BE4987 /* GraphViewController.xib in Resources */,
+				12DF556E1750A29300FCB3B1 /* RenameViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +227,7 @@
 				129B9428174CFAED005A90C3 /* SubMasterViewController.m in Sources */,
 				12C69AED174E6DBD00BE4987 /* S7GraphView.m in Sources */,
 				12C69AF1174E6F2500BE4987 /* GraphViewController.m in Sources */,
+				12DF556D1750A29300FCB3B1 /* RenameViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

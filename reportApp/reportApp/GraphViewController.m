@@ -28,6 +28,7 @@
     dataManager *dm = [[dataManager alloc]init];
     
     _loadedData = [dm loadDataFromFiles];
+    
 }
 
 - (NSMutableArray *)getXArrayList {
@@ -35,10 +36,10 @@
     NSDate          *date_converted;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"ja_JP"]];
-    [formatter setDateFormat:@"yyyy-MM-dd-HH_mm_ss"];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
     if (_loadedData) {
         array = [[NSMutableArray alloc]init];
-        NSArray *arrayOfKeys = [_loadedData allKeys];
+        NSArray *arrayOfKeys = [self getOrderedKeysWithKey];
         for (NSString* filename in arrayOfKeys) {
             NSString* strDate = [filename stringByReplacingOccurrencesOfString:@".dat" withString:@""];
             date_converted = [formatter dateFromString:strDate];
@@ -51,7 +52,7 @@
     NSMutableArray * array = nil;
     if (_loadedData) {
         array = [[NSMutableArray alloc]init];
-        NSArray *arrayOfArray = [_loadedData allValues];
+        NSArray *arrayOfArray = [self getOrderedValuesWithKey];
         for (NSArray* datas in arrayOfArray) {
             NSString *strValue = [datas objectAtIndex:indexOfItem];
             double dbl = strValue.doubleValue;
@@ -61,6 +62,19 @@
     }
     
     return array;
+}
+- (NSArray *)getOrderedKeysWithKey {
+    NSArray * key = [[_loadedData allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    return key;
+}
+
+- (NSArray *)getOrderedValuesWithKey {
+    NSArray *keyArray = [self getOrderedKeysWithKey];
+    NSMutableArray *value = [NSMutableArray arrayWithCapacity:keyArray.count];
+    for (NSString * key in keyArray) {
+        [value addObject:[_loadedData objectForKey:key]];
+    }
+    return value;
 }
 
 - (void)createYFormatter {
@@ -99,7 +113,8 @@
     }
     self.title = self.selectedItem;
     
-//    [super viewDidAppear:animated];
+    self.graphView.specialInfo = [self getArrayOfSpecialInfo];
+    //    [super viewDidAppear:animated];
 }
 
 - (void)viewDidLoad
@@ -206,13 +221,30 @@
 }
 
 - (BOOL)graphView:(S7GraphView *)graphView shouldFillPlot:(NSUInteger)plotIndex {
+	switch (plotIndex) {
+		case 1:
+            return YES;
+			break;
+		case 2:
+            return YES;
+			break;
+		case 3:
+            return YES;
+			break;
+		case 4:
+            return YES;
+			break;
+		default:
+            return NO;
+            break;
+	}
     return NO;
 }
 
 - (void)graphView:(S7GraphView *)graphView indexOfTappedXaxis:(NSInteger)indexOfTappedXaxis {
 //    GraphInfo *tapped = [self.graphInfoList_.list_ objectAtIndex:indexOfTappedXaxis];
 //    [label setText:[NSString stringWithFormat:@"%@ was tapped.",tapped.name_]];
-    NSArray *files = _loadedData.allKeys;
+    NSArray *files = [self getOrderedKeysWithKey];
     NSString *filename = [files objectAtIndex:indexOfTappedXaxis];
     NSArray *datas = [_loadedData objectForKey:filename];
     NSNumber *value = [datas objectAtIndex:_indexOfSelectedItem];
@@ -220,6 +252,42 @@
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:filename message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
     [alert show];
 }
+-(NSArray *)getArrayOfSpecialInfo {
+    UIColor *red = [UIColor colorWithRed:255.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:0.4f];
+    UIColor *blue = [UIColor colorWithRed:0.0f/255.0f green:0.0f/255.0f blue:255.0/255.0f alpha:0.4f];
+    
+    NSDictionary * retDic0 = [NSDictionary dictionaryWithObjectsAndKeys:
+                              nil, @"color",
+                              [NSNumber numberWithInt:NORMAL], @"type"
+                              , nil];
+    
+    NSDictionary * retDic1 = [NSDictionary dictionaryWithObjectsAndKeys:
+                              red, @"color",
+                              [NSNumber numberWithInt:LOWER], @"type"
+                              , nil];
+    NSDictionary * retDic2 = [NSDictionary dictionaryWithObjectsAndKeys:
+                              red,@"color",
+                              [NSNumber numberWithInt:UPPER], @"type"
+                              , nil];
+    NSDictionary * retDic3 = [NSDictionary dictionaryWithObjectsAndKeys:
+                              blue, @"color",
+                              [NSNumber numberWithInt:LOWER], @"type"
+                              , nil];
+    NSDictionary * retDic4 = [NSDictionary dictionaryWithObjectsAndKeys:
+                              blue, @"color",
+                              [NSNumber numberWithInt:UPPER], @"type"
+                              , nil];
+    NSArray * datas = [NSArray arrayWithObjects:
+                       retDic0,
+                       retDic1,
+                       retDic2,
+                       retDic3,
+                       retDic4,
+                       nil];
+    
+    return datas;
+}
+
 - (NSDictionary *)getItemInfo:(int)index {
     NSDictionary * retDic0 = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"ｇ／ｄL", @"unit",

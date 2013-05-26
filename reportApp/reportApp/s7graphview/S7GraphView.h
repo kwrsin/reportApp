@@ -142,6 +142,9 @@
     
     NSString *_xUnit;
     NSString *_yUnit;
+    
+    // FIXME:上限・下限線
+    NSArray *specialInfo;
 }
 
 /** Returns a different color for the first 10 plots. */
@@ -170,6 +173,13 @@
 
 @property (nonatomic, retain) NSString *xUnit;
 @property (nonatomic, retain) NSString *yUnit;
+
+// FIXME:上限・下限線
+@property (nonatomic, retain) NSArray *specialInfo;
+#define NORMAL 0
+#define UPPER 1
+#define LOWER 2
+
 
 - (void)reloadData;
 

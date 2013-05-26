@@ -166,8 +166,9 @@
     [self.tableView reloadData];//画面表示を更新しますで
     
     NSString *filename = _filename;
-    NSString *label = [filename stringByReplacingOccurrencesOfString:@".dat" withString:@""];
-    self.title = NSLocalizedString(@"項目", @"SubMaster");
+    NSString *work = [filename stringByReplacingOccurrencesOfString:@".dat" withString:@""];
+    NSString *label = [NSString stringWithFormat:@"データ(%@)", work];
+    self.title = NSLocalizedString(label, @"SubMaster");
     
     [super viewWillAppear:animated];
 }

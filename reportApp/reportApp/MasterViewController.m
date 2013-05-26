@@ -11,12 +11,8 @@
 #import "SubMasterViewController.h"
 #import "dataManager.h"
 #import "Consts.h"
+#import "RenameViewController.h"
 
-@interface MasterViewController () {
-    NSMutableArray *_objects;
-    dataManager *dm;
-}
-@end
 
 @implementation MasterViewController
 
@@ -38,12 +34,16 @@
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
     
-    dm = [[dataManager alloc]init];
-    
+    [self readData];
+
+}
+-(void)readData {
+    if (!dm) {
+        dm = [[dataManager alloc]init];
+    }
     _loadedData = [dm loadDataFromFiles];
     _objects = [NSMutableArray arrayWithArray:
-                    [_loadedData allKeys]];
-
+                [[_loadedData allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,29 +51,20 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (NSString *)getNewFileName {
-    NSDateFormatter *outputDateFormatter = [[NSDateFormatter alloc] init];
-	NSString *outputDateFormatterStr = @"yyyy-MM-dd-HH_mm_ss";
-	[outputDateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"JST"]];
-	[outputDateFormatter setDateFormat:outputDateFormatterStr];
-	NSString *newFileName = [NSString stringWithFormat:@"%@.dat",
-                             [outputDateFormatter stringFromDate:[NSDate date]]];
-    return newFileName;
-}
-
 - (void)insertNewObject:(id)sender
 {
-    if (!_objects) {
-        _objects = [[NSMutableArray alloc] init];
+    if (!self.renameViewController) {
+        self.renameViewController = [[RenameViewController alloc] initWithNibName:@"RenameViewController" bundle:nil];
     }
-    NSString *newFileName = [self getNewFileName];
-    [_objects insertObject:newFileName atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     
-    [dm saveFile:newFileName dataList:nil];
-    NSMutableArray * dict = [NSMutableArray array];
-    [_loadedData setValue:dict forKey:newFileName];
+//    self.DetailViewController.indexOfSelectedItem = self.indexOfSelectedItem;
+//    self.DetailViewController.selectedItem = [self cutTail:self.detailItem];
+    self.renameViewController.objects = _objects;
+    self.renameViewController.dm = dm;
+    
+    self.renameViewController.masterViewController = self;
+    [self.navigationController pushViewController:self.renameViewController animated:YES];
+
 }
 
 #pragma mark - Table View
@@ -154,5 +145,27 @@
     
     [self.navigationController pushViewController:self.subMasterViewController animated:YES];
 }
-
+- (void)refleshData {
+    [self readData];
+    [self.tableView reloadData];
+}
+- (void)gotoSubmenu4newData:(NSString *)filename {
+    [self refleshData];
+    NSArray *keys = [[_loadedData allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    int cnt = 0;
+    for (NSString* key in keys) {
+        if ([key isEqualToString:filename]) {
+            break;
+        }
+        cnt++;
+    }
+    if (!self.subMasterViewController) {
+        self.subMasterViewController = [[SubMasterViewController alloc] initWithNibName:@"SubMasterViewController" bundle:nil];
+    }
+    NSDate *object = _objects[cnt];
+    self.subMasterViewController.filename = object;
+    self.subMasterViewController.loadedData = _loadedData;
+    
+    [self.navigationController pushViewController:self.subMasterViewController animated:YES];
+}
 @end
