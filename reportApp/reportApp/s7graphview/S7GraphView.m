@@ -281,9 +281,6 @@
 //	CGFloat step = (maxY - minY) / 5;
 //	CGFloat stepY = (self.frame.size.height - (offsetY * 2)) / (maxY - minY);
     
-    // FIXME
-    CGFloat top = 0;
-    
     CGFloat value = minY - step;
 //    NSInteger value = minY - step;
 	for (NSUInteger i = 0; i < 6; i++) {
@@ -299,10 +296,7 @@
 			
 			CGContextSetLineDash(c, 0.0f, lineDash, 2);
 			CGContextSetLineWidth(c, 0.1f);
-            
-            // FIXME
-            top = self.frame.size.height - y - offsetY;
-			
+            			
 			CGPoint startPoint = CGPointMake(offsetX, self.frame.size.height - y - offsetY);
 			CGPoint endPoint = CGPointMake(self.frame.size.width - offsetX, self.frame.size.height - y - offsetY);
             
@@ -400,8 +394,7 @@
 			CGContextSetLineDash(c, 0.0f, lineDash, 2);
 			CGContextSetLineWidth(c, 0.1f);
 			
-//			CGPoint startPoint = CGPointMake(x + offsetX, offsetY);
-			CGPoint startPoint = CGPointMake(x + offsetX, top);
+			CGPoint startPoint = CGPointMake(x + offsetX, offsetY);
 			CGPoint endPoint = CGPointMake(x + offsetX, self.frame.size.height - offsetY);
 			
 			CGContextMoveToPoint(c, startPoint.x, startPoint.y);
@@ -567,10 +560,10 @@
 //                        CGContextSetFillColorWithColor(c, plotColor);
 //                        CGContextFillPath(c);
                         if ([self getType:plotIndex] == UPPER) {
-                            CGContextMoveToPoint(c, startPoint.x,  top);
+                            CGContextMoveToPoint(c, startPoint.x,  offsetY);
                             CGContextAddLineToPoint(c, startPoint.x, startPoint.y);
                             CGContextAddLineToPoint(c, endPoint.x, endPoint.y);
-                            CGContextAddLineToPoint(c, endPoint.x, top);
+                            CGContextAddLineToPoint(c, endPoint.x, offsetY);
                             CGContextClosePath(c);
                             
                             CGContextSetFillColorWithColor(c, plotColor);

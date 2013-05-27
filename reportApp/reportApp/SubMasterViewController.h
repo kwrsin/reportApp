@@ -15,5 +15,6 @@
 @property (strong, nonatomic) id filename;
 @property (strong, nonatomic) DetailViewController *detailViewController;
 @property (strong, nonatomic) NSDictionary *loadedData;
++ (NSArray *)getLabels;
 - (void)reflect:(NSIndexPath*)indexPath value:(NSString*)value;
 @end

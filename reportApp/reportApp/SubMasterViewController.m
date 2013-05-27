@@ -68,12 +68,12 @@
     return index;
     
 }
-- (NSArray *)getLabels {
++ (NSArray *)getLabels {
     NSArray *labels = @[
                         @"総蛋白[ｇ／ｄL]",
                         @"アルブミン[ｇ／ｄL]",
                         @"A/G比",
-                        @"A/G比",
+                        @"蛋白分画-A/G比",
                         @"蛋白分画-アルブミン[％]",
                         @"蛋白分画-α１‐Globulin[％]",
                         @"蛋白分画-α２‐Globulin[％]",
@@ -140,7 +140,7 @@
 //この画面の表示が始まるとき呼ばれますで
 - (void)viewWillAppear:(BOOL)animated {
     
-    NSArray *labels = [self getLabels];
+    NSArray *labels = [SubMasterViewController getLabels];
     int count = labels.count;
     NSMutableArray * data = [_loadedData objectForKey:_filename];
     if (!_objects) {
@@ -237,9 +237,13 @@
     self.detailViewController.subMasterViewController = self;
     NSMutableArray *arr = [_loadedData objectForKey:_filename];
     int index = [self toIndexFromIndexNumber:indexPath.section row:indexPath.row];
-    NSString *value = [arr objectAtIndex:
-                       index];
-    self.detailViewController.value = value;
+    if (arr) {
+        if (arr.count > 0) {
+            NSString *value = [arr objectAtIndex:
+                               index];
+            self.detailViewController.value = value;
+        }
+    }
     self.detailViewController.indexOfSelectedItem = index;
     
     [self.navigationController pushViewController:self.detailViewController animated:YES];

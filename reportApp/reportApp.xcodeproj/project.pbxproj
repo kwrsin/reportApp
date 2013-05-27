@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		128915001753B7C000FBC622 /* ItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 128914FF1753B7C000FBC622 /* ItemCell.xib */; };
 		128915061753B9D100FBC622 /* ItemCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 128915051753B9D100FBC622 /* ItemCellViewController.m */; };
+		128915091753E42F00FBC622 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 128915071753E42F00FBC622 /* icon.png */; };
+		1289150A1753E42F00FBC622 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 128915081753E42F00FBC622 /* icon@2x.png */; };
+		1289150C1753E45C00FBC622 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1289150B1753E45C00FBC622 /* icon.png */; };
+		1289150E1753E46900FBC622 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1289150D1753E46900FBC622 /* icon@2x.png */; };
 		129B93F0174CBA55005A90C3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 129B93EF174CBA55005A90C3 /* UIKit.framework */; };
 		129B93F2174CBA55005A90C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 129B93F1174CBA55005A90C3 /* Foundation.framework */; };
 		129B93F4174CBA55005A90C3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 129B93F3174CBA55005A90C3 /* CoreGraphics.framework */; };
@@ -36,6 +40,14 @@
 		128914FF1753B7C000FBC622 /* ItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemCell.xib; sourceTree = "<group>"; };
 		128915041753B9D100FBC622 /* ItemCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCellViewController.h; sourceTree = "<group>"; };
 		128915051753B9D100FBC622 /* ItemCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCellViewController.m; sourceTree = "<group>"; };
+		128915071753E42F00FBC622 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		128915081753E42F00FBC622 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		1289150B1753E45C00FBC622 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../icon.png; sourceTree = "<group>"; };
+		1289150D1753E46900FBC622 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "../icon@2x.png"; sourceTree = "<group>"; };
+		1289150F1753E95900FBC622 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/SubMasterViewController.xib; sourceTree = "<group>"; };
+		128915101753E95A00FBC622 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/MasterViewController.xib; sourceTree = "<group>"; };
+		128915111753E95A00FBC622 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/DetailViewController.xib; sourceTree = "<group>"; };
+		128915121753E95A00FBC622 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		129B93EC174CBA55005A90C3 /* reportApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reportApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		129B93EF174CBA55005A90C3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		129B93F1174CBA55005A90C3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -91,7 +103,6 @@
 				129B9421174CD1DB005A90C3 /* libdataManager.a */,
 				129B93F5174CBA55005A90C3 /* reportApp */,
 				129B93EE174CBA55005A90C3 /* Frameworks */,
-				129B93ED174CBA55005A90C3 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +112,7 @@
 				129B93EC174CBA55005A90C3 /* reportApp.app */,
 			);
 			name = Products;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		129B93EE174CBA55005A90C3 /* Frameworks */ = {
@@ -116,8 +128,12 @@
 		129B93F5174CBA55005A90C3 /* reportApp */ = {
 			isa = PBXGroup;
 			children = (
+				1289150D1753E46900FBC622 /* icon@2x.png */,
+				1289150B1753E45C00FBC622 /* icon.png */,
 				12C69AEA174E6DBC00BE4987 /* S7GraphView.h */,
 				12C69AEB174E6DBC00BE4987 /* S7GraphView.m */,
+				128915071753E42F00FBC622 /* icon.png */,
+				128915081753E42F00FBC622 /* icon@2x.png */,
 				12C69AEC174E6DBC00BE4987 /* S7Macros.h */,
 				129B9423174CFAED005A90C3 /* SubMasterViewController.xib */,
 				129B9425174CFAED005A90C3 /* SubMasterViewController.h */,
@@ -136,6 +152,7 @@
 				129B9410174CBA55005A90C3 /* DetailViewController.xib */,
 				12DF556B1750A29300FCB3B1 /* RenameViewController.m */,
 				12DF556C1750A29300FCB3B1 /* RenameViewController.xib */,
+				129B93ED174CBA55005A90C3 /* Products */,
 				129B93F6174CBA55005A90C3 /* Supporting Files */,
 				12C69AEE174E6F2500BE4987 /* GraphViewController.h */,
 				12C69AEF174E6F2500BE4987 /* GraphViewController.m */,
@@ -193,6 +210,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ja,
 			);
 			mainGroup = 129B93E3174CBA55005A90C3;
 			productRefGroup = 129B93ED174CBA55005A90C3 /* Products */;
@@ -219,6 +237,10 @@
 				12C69AF2174E6F2500BE4987 /* GraphViewController.xib in Resources */,
 				12DF556E1750A29300FCB3B1 /* RenameViewController.xib in Resources */,
 				128915001753B7C000FBC622 /* ItemCell.xib in Resources */,
+				128915091753E42F00FBC622 /* icon.png in Resources */,
+				1289150A1753E42F00FBC622 /* icon@2x.png in Resources */,
+				1289150C1753E45C00FBC622 /* icon.png in Resources */,
+				1289150E1753E46900FBC622 /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +270,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				129B93F9174CBA55005A90C3 /* en */,
+				128915121753E95A00FBC622 /* ja */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -256,6 +279,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				129B940E174CBA55005A90C3 /* en */,
+				128915101753E95A00FBC622 /* ja */,
 			);
 			name = MasterViewController.xib;
 			sourceTree = "<group>";
@@ -264,6 +288,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				129B9411174CBA55005A90C3 /* en */,
+				128915111753E95A00FBC622 /* ja */,
 			);
 			name = DetailViewController.xib;
 			sourceTree = "<group>";
@@ -272,6 +297,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				129B9424174CFAED005A90C3 /* en */,
+				1289150F1753E95900FBC622 /* ja */,
 			);
 			name = SubMasterViewController.xib;
 			sourceTree = "<group>";

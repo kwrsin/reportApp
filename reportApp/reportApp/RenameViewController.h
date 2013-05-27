@@ -14,6 +14,7 @@
 @interface RenameViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIDatePicker *dpk;
+@property (strong, nonatomic) NSDictionary *loadedData;
 @property (strong, nonatomic) MasterViewController *masterViewController;
 @property (strong, nonatomic) NSMutableArray *objects;
 @property (strong, nonatomic) dataManager *dm;

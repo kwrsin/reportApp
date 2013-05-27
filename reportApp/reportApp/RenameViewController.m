@@ -8,6 +8,7 @@
 
 #import "RenameViewController.h"
 #import "MasterViewController.h"
+#import "SubMasterViewController.h"
 #import "dataManager.h"
 #import "Consts.h"
 
@@ -38,11 +39,26 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 - (IBAction)done:(id)sender {
     NSString *newFileName = [self getNewFileName];
     int saveflag = 0;
-    saveflag = [self.dm saveFile:newFileName dataList:nil];
+    
+    NSArray *labels = [SubMasterViewController getLabels];
+    int count = labels.count;
+    if (!_objects) {
+        _objects = [[NSMutableArray alloc] init];
+    }
+    [_objects removeAllObjects];
+    NSMutableArray * newdata = [NSMutableArray array];
+    for (int i = 0; i < count; i++) {
+        NSMutableDictionary * item = [NSMutableDictionary dictionaryWithCapacity:2];
+        [item setValue:[labels objectAtIndex:i] forKey:@"label"];
+        [item setValue:@"" forKey:@"data"];
+        [_objects addObject:item];
+        [newdata addObject:@""];
+    }
+    
+    saveflag = [self.dm saveFile:newFileName dataList:newdata];
     if (saveflag == DM_SUCCESS) {
         [self.masterViewController gotoSubmenu4newData:newFileName];
     
