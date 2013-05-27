@@ -9,6 +9,7 @@
 #import "SubMasterViewController.h"
 
 #import "DetailViewController.h"
+#import "ItemCellViewController.h"
 #import "dataManager.h"
 #import "Consts.h"
 
@@ -73,11 +74,11 @@
                         @"アルブミン[ｇ／ｄL]",
                         @"A/G比",
                         @"A/G比",
-                        @"アルブミン[％]-蛋白分画",
-                        @"α１‐Globulin[％]-蛋白分画",
-                        @"α２‐Globulin[％]-蛋白分画",
-                        @"β‐Globulin[％]-蛋白分画",
-                        @"γ‐Globulin[％]-蛋白分画",
+                        @"蛋白分画-アルブミン[％]",
+                        @"蛋白分画-α１‐Globulin[％]",
+                        @"蛋白分画-α２‐Globulin[％]",
+                        @"蛋白分画-β‐Globulin[％]",
+                        @"蛋白分画-γ‐Globulin[％]",
                         @"尿素窒素[ｍｇ／ｄL]",
                         @"クレアチニン[ｍｇ／ｄL]",
                         @"尿酸[ｍｇ／ｄL]",
@@ -122,13 +123,13 @@
                         @"MCH[ｐｇ]",
                         @"MCHC[％]",
                         @"血小板[X１０４／μL]",
-                        @"好塩基球[％]-白血球像",
-                        @"好酸球[％]-白血球像",
-                        @"好中球[％]-白血球像",
-                        @"桿状核球[％]-白血球像",
-                        @"分葉核球[％]-白血球像",
-                        @"リンパ球[％]-白血球像",
-                        @"単球[％]-白血球像"
+                        @"白血球像-好塩基球[％]",
+                        @"白血球像-好酸球[％]",
+                        @"白血球像-好中球[％]",
+                        @"白血球像-桿状核球[％]",
+                        @"白血球像-分葉核球[％]",
+                        @"白血球像-リンパ球[％]",
+                        @"白血球像-単球[％]"
                         ];
     return labels;
 }
@@ -146,20 +147,13 @@
         _objects = [[NSMutableArray alloc] init];
     }
     [_objects removeAllObjects];
-    NSString * item;
     for (int i = 0; i < count; i++) {
+        NSMutableDictionary * item = [NSMutableDictionary dictionaryWithCapacity:2];
+        [item setValue:[labels objectAtIndex:i] forKey:@"label"];
         if (i < data.count) {
-            item = [NSString stringWithFormat:
-                    @"%@  %@",
-                    [labels objectAtIndex:i],
-                    [data objectAtIndex:i]];
+            [item setValue:[data objectAtIndex:i] forKey:@"data"];
         } else {
-            item = [NSString stringWithFormat:
-                    @"%@",
-                    [labels objectAtIndex:i]];
-            
-            // ダミーのデータを強制的に作る
-            [data addObject:@""];
+            [item setValue:@"" forKey:@"data"];
         }
         [_objects addObject:item];
     }
@@ -210,15 +204,18 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ItemCellViewController *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        UIViewController * vc;
+        vc = [[UIViewController alloc]initWithNibName:@"ItemCell" bundle:nil];
+        cell = (ItemCellViewController *)vc.view;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
 
-
-    NSDate *object = _objects[[self toIndexFromIndexNumber:indexPath.section row:indexPath.row]];
-    cell.textLabel.text = [object description];
+    NSDictionary *object = _objects[[self toIndexFromIndexNumber:indexPath.section row:indexPath.row]];
+//    cell.textLabel.text = [object description];
+    cell.itemLabel.text = [object objectForKey:@"label"];
+    cell.valueLabel.text = [object objectForKey:@"data"];
     return cell;
 }
 
@@ -233,8 +230,9 @@
     if (!self.detailViewController) {
         self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
     }
-    NSDate *object = _objects[[self toIndexFromIndexNumber:indexPath.section row:indexPath.row]];
-    self.detailViewController.detailItem = object;
+    NSMutableDictionary *object = _objects[[self toIndexFromIndexNumber:indexPath.section row:indexPath.row]];
+    NSString *dItem = [object objectForKey:@"label"];
+    self.detailViewController.detailItem = dItem;
     self.detailViewController.indexPath = indexPath;
     self.detailViewController.subMasterViewController = self;
     NSMutableArray *arr = [_loadedData objectForKey:_filename];
@@ -247,15 +245,9 @@
     [self.navigationController pushViewController:self.detailViewController animated:YES];
 }
 - (void)reflect:(NSIndexPath*)indexPath value:(NSString*)value {
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    ItemCellViewController *cell = (ItemCellViewController *)[self.tableView cellForRowAtIndexPath:indexPath];
     
-    NSDate *object = _objects[[self toIndexFromIndexNumber:indexPath.section row:indexPath.row]];
-    NSString * item = [NSString stringWithFormat:
-                       @"%@  %@",
-                       object,
-                       value];
-    
-    cell.textLabel.text = item;
+    cell.valueLabel.text = value;
     
     NSMutableArray * arr = [self.loadedData objectForKey:_filename];
     [arr replaceObjectAtIndex:

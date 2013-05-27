@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		128915001753B7C000FBC622 /* ItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 128914FF1753B7C000FBC622 /* ItemCell.xib */; };
+		128915061753B9D100FBC622 /* ItemCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 128915051753B9D100FBC622 /* ItemCellViewController.m */; };
 		129B93F0174CBA55005A90C3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 129B93EF174CBA55005A90C3 /* UIKit.framework */; };
 		129B93F2174CBA55005A90C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 129B93F1174CBA55005A90C3 /* Foundation.framework */; };
 		129B93F4174CBA55005A90C3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 129B93F3174CBA55005A90C3 /* CoreGraphics.framework */; };
@@ -31,6 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		128914FF1753B7C000FBC622 /* ItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemCell.xib; sourceTree = "<group>"; };
+		128915041753B9D100FBC622 /* ItemCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCellViewController.h; sourceTree = "<group>"; };
+		128915051753B9D100FBC622 /* ItemCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCellViewController.m; sourceTree = "<group>"; };
 		129B93EC174CBA55005A90C3 /* reportApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reportApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		129B93EF174CBA55005A90C3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		129B93F1174CBA55005A90C3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -125,6 +130,9 @@
 				129B940B174CBA55005A90C3 /* DetailViewController.m */,
 				12DF556A1750A29300FCB3B1 /* RenameViewController.h */,
 				129B940D174CBA55005A90C3 /* MasterViewController.xib */,
+				128914FF1753B7C000FBC622 /* ItemCell.xib */,
+				128915041753B9D100FBC622 /* ItemCellViewController.h */,
+				128915051753B9D100FBC622 /* ItemCellViewController.m */,
 				129B9410174CBA55005A90C3 /* DetailViewController.xib */,
 				12DF556B1750A29300FCB3B1 /* RenameViewController.m */,
 				12DF556C1750A29300FCB3B1 /* RenameViewController.xib */,
@@ -210,6 +218,7 @@
 				129B9427174CFAED005A90C3 /* SubMasterViewController.xib in Resources */,
 				12C69AF2174E6F2500BE4987 /* GraphViewController.xib in Resources */,
 				12DF556E1750A29300FCB3B1 /* RenameViewController.xib in Resources */,
+				128915001753B7C000FBC622 /* ItemCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +237,7 @@
 				12C69AED174E6DBD00BE4987 /* S7GraphView.m in Sources */,
 				12C69AF1174E6F2500BE4987 /* GraphViewController.m in Sources */,
 				12DF556D1750A29300FCB3B1 /* RenameViewController.m in Sources */,
+				128915061753B9D100FBC622 /* ItemCellViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

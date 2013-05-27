@@ -114,6 +114,7 @@
     self.title = self.selectedItem;
     
     self.graphView.specialInfo = [self getArrayOfSpecialInfo];
+    self.graphView.visibleLabel = YES;
     //    [super viewDidAppear:animated];
 }
 

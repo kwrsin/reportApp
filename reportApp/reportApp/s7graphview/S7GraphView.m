@@ -116,6 +116,8 @@
 
 // FIXME 
 @synthesize specialInfo = _specialInfo;
+@synthesize visibleLabel = _visibleLabel;
+
 -(NSDictionary *)getDatas:(int)index {
     NSDictionary * dic = nil;
     if (_specialInfo) {
@@ -123,6 +125,7 @@
     }
     return  dic;
 }
+
 -(UIColor *)getColor:(int)index{
     NSDictionary * dic = nil;
     dic = [self getDatas:index];
@@ -131,6 +134,7 @@
     }
     return nil;
 }
+
 -(int)getType:(int)index{
     NSDictionary * dic = nil;
     dic = [self getDatas:index];
@@ -271,16 +275,19 @@
 		minY = floor(minY / 10000) * 10000;
 	}
     
-	CGFloat step = (maxY - minY) / 5;
-	CGFloat stepY = (self.frame.size.height - (offsetY * 2)) / (maxY - minY);
+	NSInteger step = (maxY - minY) / 5;
+	NSInteger stepY = (self.frame.size.height - (offsetY * 2)) / (maxY - minY);
+    
+//	CGFloat step = (maxY - minY) / 5;
+//	CGFloat stepY = (self.frame.size.height - (offsetY * 2)) / (maxY - minY);
     
     // FIXME
-    float top = 0;
+    CGFloat top = 0;
     
-    float value = minY - step;
+    CGFloat value = minY - step;
 //    NSInteger value = minY - step;
 	for (NSUInteger i = 0; i < 6; i++) {
-        float y = (i * step) * stepY;
+        CGFloat y = (i * step) * stepY;
 //        NSInteger y = (i * step) * stepY;
 		value = value + step;
 		
@@ -298,6 +305,7 @@
 			
 			CGPoint startPoint = CGPointMake(offsetX, self.frame.size.height - y - offsetY);
 			CGPoint endPoint = CGPointMake(self.frame.size.width - offsetX, self.frame.size.height - y - offsetY);
+            
 			
 			CGContextMoveToPoint(c, startPoint.x, startPoint.y);
 			CGContextAddLineToPoint(c, endPoint.x, endPoint.y);
@@ -392,7 +400,8 @@
 			CGContextSetLineDash(c, 0.0f, lineDash, 2);
 			CGContextSetLineWidth(c, 0.1f);
 			
-			CGPoint startPoint = CGPointMake(x + offsetX, offsetY);
+//			CGPoint startPoint = CGPointMake(x + offsetX, offsetY);
+			CGPoint startPoint = CGPointMake(x + offsetX, top);
 			CGPoint endPoint = CGPointMake(x + offsetX, self.frame.size.height - offsetY);
 			
 			CGContextMoveToPoint(c, startPoint.x, startPoint.y);
@@ -458,6 +467,7 @@
         
         if (specialColor) {
             plotColor = specialColor.CGColor;
+            [specialColor set];
         }
 
         int numberDataCount = 0;
@@ -470,7 +480,7 @@
             for (NSUInteger valueIndex = 0; valueIndex < values.count - 1; valueIndex++) {
                 if ([self isNumberClass:[values objectAtIndex:valueIndex]]) {
                     NSUInteger x = valueIndex * stepX;
-                    NSInteger y = floor(([[values objectAtIndex:valueIndex] intValue] - minY) * stepY);
+                    CGFloat y = (([[values objectAtIndex:valueIndex] intValue] - minY) * stepY);
 //                    NSInteger y = ([[values objectAtIndex:valueIndex] intValue] - minY) * stepY;
                     
                     CGContextSetLineWidth(c, 1.5f);
@@ -479,14 +489,15 @@
                     CGPoint endPoint;
                     if ([self isNumberClass:[values objectAtIndex:valueIndex + 1]]) {
                         x = (valueIndex + 1) * stepX;
-                        y = floor(([[values objectAtIndex:valueIndex + 1] intValue] - minY) * stepY);
+                        y = (([[values objectAtIndex:valueIndex + 1] intValue] - minY) * stepY);
 //                        y = ([[values objectAtIndex:valueIndex + 1] intValue] - minY) * stepY;
                         endPoint = CGPointMake(x + offsetX, self.frame.size.height - y - offsetY);
                     } else {
                         for (NSUInteger idx = valueIndex+1; idx < values.count; idx++) {
                             if ([self isNumberClass:[values objectAtIndex:idx]]) {
                                 x = idx * stepX;
-                                y = ([[values objectAtIndex:idx] intValue] - minY) * stepY;
+                                y = (([[values objectAtIndex:idx] intValue] - minY) * stepY);
+//                                y = ([[values objectAtIndex:idx] intValue] - minY) * stepY;
                                 endPoint = CGPointMake(x + offsetX, self.frame.size.height - y - offsetY);
                                 break;
                             }
@@ -500,6 +511,50 @@
                     
                     CGContextSetStrokeColorWithColor(c, plotColor);
                     CGContextStrokePath(c);
+                    
+                    if (_visibleLabel) {
+                        CGFloat labelHeight = 20.0f;
+                        CGFloat labelWidth = 30.0f;
+                        CGFloat labelX = startPoint.x;
+                        CGFloat labelY = startPoint.y;
+                        NSNumber* num = [tmpValues objectAtIndex:valueIndex];
+                        NSNumberFormatter* formatter = [[[NSNumberFormatter alloc] init]autorelease];
+                        formatter.numberStyle = NSNumberFormatterDecimalStyle;
+                        formatter.minimumFractionDigits = 0;
+                        formatter.maximumFractionDigits = 4;
+                        
+                        NSString *pnt = [formatter stringFromNumber:num];
+                        
+                        if (startPoint.x < offsetX) {
+                            labelX = offsetX;
+                        } else if (startPoint.x > self.frame.size.width - offsetX - labelWidth) {
+                            labelX = self.frame.size.width - offsetX - labelWidth;
+                        }
+                        if (startPoint.y < offsetY) {
+                            labelY = offsetY;
+                        }else if (startPoint.y > self.frame.size.height - offsetY - labelHeight){
+                            labelY = self.frame.size.height - offsetY - labelHeight;
+                        }
+
+                        [pnt drawInRect:CGRectMake(
+                                                   labelX, labelY, labelWidth, labelHeight) withFont:font
+                                  lineBreakMode:UILineBreakModeTailTruncation alignment:UITextAlignmentCenter];
+                        if (valueIndex == values.count - 1 - 1) {
+                            labelX = endPoint.x;
+                            labelY = endPoint.y;
+                            if (endPoint.x > self.frame.size.width - offsetX - labelWidth) {
+                                labelX = self.frame.size.width - offsetX - labelWidth;
+                            }else if (endPoint.y > self.frame.size.height - offsetY - labelHeight){
+                                labelY = self.frame.size.height - offsetY - labelHeight;
+                            }
+                            num = [tmpValues objectAtIndex:(valueIndex + 1)];
+                            
+                            NSString *lastPnt = [formatter stringFromNumber:num];
+                            [lastPnt drawInRect:CGRectMake(
+                                                       labelX, labelY, labelWidth, labelHeight) withFont:font
+                              lineBreakMode:UILineBreakModeTailTruncation alignment:UITextAlignmentCenter];
+                        }
+                    }
                     
                     if (shouldFill) {
                         
@@ -639,7 +694,6 @@
 }
 - (NSArray *)getArrayOfExpandedData:(NSArray *)values maxCol:(int)maxCol{
     NSMutableArray *ret = [NSMutableArray array];
-//    int maxCol = [self getLengthOfPointNumbers:values];
     for (NSNumber* num in values) {
         float point = num.floatValue;
         for (int i = 0; i < maxCol; i++) {

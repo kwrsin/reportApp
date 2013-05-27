@@ -38,7 +38,7 @@
     // Update the user interface for the detail item.
 
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self cutTail:[self.detailItem description]];
+        self.detailDescriptionLabel.text = [self.detailItem description];
     }
     if (self.value) {
         self.valueField.text = _value;
@@ -66,7 +66,7 @@
     }
     
     self.graphViewController.indexOfSelectedItem = self.indexOfSelectedItem;
-    self.graphViewController.selectedItem = [self cutTail:self.detailItem];
+    self.graphViewController.selectedItem = self.detailItem;
     [self.navigationController pushViewController:self.graphViewController animated:YES];
     
 }
@@ -120,24 +120,7 @@
     
     return YES;
 }
-- (NSString *)cutTail:(NSString *)value {
-    int count = 0;
-    int length = 0;
-    for (int i = value.length - 1; i > 0; i--) {
-        NSString *tmp_str = [value substringWithRange:NSMakeRange(i, 1)];
-        if ([tmp_str isEqualToString:@" "]) {
-            count++;
-            break;
-        }
-        count++;
-    }
-    length = value.length - count;
-    NSString *cutString;
-    if (length > 0) {
-        cutString = [value substringToIndex:length];
-    }
-    return cutString;
-}
+
 
 
 @end

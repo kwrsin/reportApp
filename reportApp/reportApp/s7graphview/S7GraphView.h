@@ -145,6 +145,7 @@
     
     // FIXME:上限・下限線
     NSArray *specialInfo;
+    BOOL _visibleLabel;
 }
 
 /** Returns a different color for the first 10 plots. */
@@ -176,6 +177,7 @@
 
 // FIXME:上限・下限線
 @property (nonatomic, retain) NSArray *specialInfo;
+@property (nonatomic, assign) BOOL visibleLabel;
 #define NORMAL 0
 #define UPPER 1
 #define LOWER 2
